@@ -1,37 +1,27 @@
-let words = document.querySelectorAll(".word");
-words.forEach((word)=>{
-    let letters = word.textContent.split("");
-    word.textContent="";
-    letters.forEach((letter)=>{
-        let span = document.createElement("span");
-        span.textContent = letter;
-        span.className = "letter";
-        word.append(span);
-    });
-});
+let saveE1 = document.getElementById("saveBtn")
+let copyE1 = document.getElementById("copyBtn")
+let inputTextArea = document.getElementById("inputTextArea")
+let copyTextArea = document.getElementById("copyTextArea")
+saveE1.onclick = function() {
+    let value = inputTextArea.value
+    localStorage.setItem("inputValue", value)
+}
 
-let currentWordIndex = 0;
-let maxWordIndex = words.length -1;
-words[currentWordIndex].computedStyleMap.opacity = "1";
+copyE1.onclick = function() {
+    let getValue = localStorage.getItem("inputValue")
+    let getValuee = inputTextArea.value
+    if (getValuee === "") {
+        copyTextArea.value = "Input is empty"
+        alert("Input is Empty")
+        return
+    }
+    copyTextArea.value = getValuee
+}
 
-let changeText = ()=>{
-    let currentWord = words[currentWordIndex];
-    let nextWord = curentWordIndex === maxWordIndex ? words[0] : words[currentwordIndex + 1];
+function persist() {
+    let getValue = localStorage.getItem("inputValue")
+    inputTextArea.value = getValue
+}
 
-    Array.from(currentWord.children).forEach((letter,i)=>{
-        setTimeout(()=>{
-            letter.className = "letter out";
-        },i * 80);
-    });
-    nextWord.style.opacity="1";
-    Array.from(nextWord.children).forEach((letter,i)=>{
-        letter.className = "letter behind";
-        setTimeout(()=>{
-            letter.className = "letter in";
-        },340 + i * 80);
-    });
-    currentWordIndex = currentWordIndex === maxWordIndex ? 0 : currentWordIndex + 1; 
-};
 
-changeText();
-setInterval(changeText,3000);
+persist()
